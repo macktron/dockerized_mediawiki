@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chase me ladies, I'm the Cavalry",
+			"Mvolz",
+			"Yejianfei"
+		]
+	},
+	"action-requestips": "view requester's IP addresses whilst processing requested accounts"
+}

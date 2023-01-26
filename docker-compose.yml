@@ -1,0 +1,69 @@
+version: '3'
+services:
+    mediawiki:
+        container_name: mediawiki
+        image: mediawiki:latest
+        restart: always
+        ports:
+            - 8080:80
+        volumes:
+            - ./data/images:/var/www/html/images
+            - ./config/LocalSettings.php:/var/www/html/LocalSettings.php
+            - ./data/extensions:/var/www/html/extensions
+        environment:    
+            DOMAIN: https://kthfsaewiki.duckdns.org
+            
+            DB_TYPE: mysql
+            DB_HOST: db
+            DB_NAME: FS_wiki_db
+            DB_USER: FS_wiki
+            DB_PASSWORD: P@ssoword2003!
+
+            RADIUS_HOST: 192.168.9.12
+            RADIUS_SECRET: klsakjfgkjkjKJVgvHvKlknlBJgcjkBnKBKHchFcKlYFKGGYFLFKUFLHBbluyvlbycjgvhmvnmvjutrcj
+
+            APACHE_RUN_DIR: /var/run/apache2
+            APACHE_RUN_USER: www-data
+            APACHE_RUN_GROUP: www-data
+            APACHE_LOG_DIR: /var/log/apache2
+            APACHE_CONFDIR: /etc/apache2
+        networks:
+            - wikinet
+    
+    database:
+        container_name: db
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_DATABASE: FS_wiki_db
+            MYSQL_USER: FS_wiki
+            MYSQL_PASSWORD: P@ssoword2003!
+            MYSQL_ROOT_PASSWORD: helloworld
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - ./data/db.sql:/docker-entrypoint-initdb.d/db.sql
+        networks:
+            - wikinet
+    caddy:
+        container_name: caddy
+        image: caddy:2-alpine
+        restart: unless-stopped
+        environment:
+            LOG_FILE: /data/access.log
+            DOMAIN: kthfsaewiki.duckdns.org
+        ports:
+            - 80:80
+            - 443:443 
+        networks:
+            - wikinet
+        volumes:
+            - caddy:/data
+            - caddy_config:/config
+            - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+
+volumes:
+    caddy:
+    caddy_config:
+
+networks:
+    wikinet:

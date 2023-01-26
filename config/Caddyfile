@@ -1,0 +1,13 @@
+{
+  log {
+    level INFO
+    output file {$LOG_FILE} {
+      roll_size 1MB
+      roll_keep 10
+    }
+  }
+}
+
+https://{$DOMAIN} {
+        reverse_proxy mediawiki:80
+}
