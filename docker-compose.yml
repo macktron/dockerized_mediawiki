@@ -10,17 +10,27 @@ services:
             - ./data/images:/var/www/html/images
             - ./config/LocalSettings.php:/var/www/html/LocalSettings.php
             - ./data/extensions:/var/www/html/extensions
-        environment:    
-            DOMAIN: https://kthfsaewiki.duckdns.org
-            
-            DB_TYPE: mysql
-            DB_HOST: db
-            DB_NAME: FS_wiki_db
-            DB_USER: FS_wiki
-            DB_PASSWORD: P@ssoword2003!
+        environment:
 
-            RADIUS_HOST: 192.168.9.12
-            RADIUS_SECRET: klsakjfgkjkjKJVgvHvKlknlBJgcjkBnKBKHchFcKlYFKGGYFLFKUFLHBbluyvlbycjgvhmvnmvjutrcj
+            DOMAIN: 
+            
+            EMAL_HOST:
+            EMAL_HOST_ID:
+            EMAIL_PORT:
+            EMAIL_USERNAME:
+            EMAIL_PASSWORD:
+
+            SECRET_KEY: 
+            UPGRADE_SECRET_KEY: 
+
+            RADIUS_HOST: 
+            RADIUS_SECRET: 
+            
+            DB_TYPE: 
+            DB_HOST: 
+            DB_NAME: 
+            DB_USER: 
+            DB_PASSWORD: 
 
             APACHE_RUN_DIR: /var/run/apache2
             APACHE_RUN_USER: www-data
@@ -35,10 +45,10 @@ services:
         image: mysql:latest
         restart: always
         environment:
-            MYSQL_DATABASE: FS_wiki_db
-            MYSQL_USER: FS_wiki
-            MYSQL_PASSWORD: P@ssoword2003!
-            MYSQL_ROOT_PASSWORD: helloworld
+            MYSQL_DATABASE: 
+            MYSQL_USER: 
+            MYSQL_PASSWORD: 
+            MYSQL_ROOT_PASSWORD:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - ./data/db.sql:/docker-entrypoint-initdb.d/db.sql
@@ -50,7 +60,7 @@ services:
         restart: unless-stopped
         environment:
             LOG_FILE: /data/access.log
-            DOMAIN: kthfsaewiki.duckdns.org
+            DOMAIN: 
         ports:
             - 80:80
             - 443:443 

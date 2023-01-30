@@ -59,12 +59,12 @@ $wgEmailAuthentication = true;
 
 # Email settings
 $wgSMTP = [
-    'host'     => "smtp01.binero.se", // could also be an IP address. Where the SMTP server is located
-    'IDHost'   => "wiki.kthformulastudent.se",      // Generally this will be the domain name of your website (aka mywiki.org)
-    'port'     => 587,                 // Port to use when connecting to the SMTP server
+    'host'     => getenv("EMAL_HOST"), // could also be an IP address. Where the SMTP server is located
+    'IDHost'   => getenv("EMAIL_HOST_ID"),      // Generally this will be the domain name of your website (aka mywiki.org)
+    'port'     => getenv("EMAIL_PORT"),                 // Port to use when connecting to the SMTP server
     'auth'     => true,               // Should we use SMTP authentication (true or false)
-    'username' => "admin@wiki.kthformulastudent.se",     // Username to use for SMTP authentication (if being used)
-    'password' => "WikiKthfs71"       // Password to use for SMTP authentication (if being used)
+    'username' => getenv("EMAIL_USERNAME"),     // Username to use for SMTP authentication (if being used)
+    'password' => getenv("EMAIL_PASSWORD")       // Password to use for SMTP authentication (if being used)
 ];
 
 ## Database settings
@@ -115,14 +115,14 @@ $wgLocaltimezone = "UTC";
 ## be publicly accessible from the web.
 #$wgCacheDirectory = "$IP/cache";
 
-$wgSecretKey = "0b333d77ce59e21fe526d44015a46740e9ede627bcd477ea5570020228631d8b";
+$wgSecretKey = getenv("SECRET_KEY");
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "f2ee9b51de1dfccf";
+$wgUpgradeKey = getenv("UPGRADE_SECRET_KEY");
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
@@ -174,7 +174,6 @@ wfLoadExtension( 'SyntaxHighlight_GeSHi' );
 # Math Equation Extension
 wfLoadExtension( 'SimpleMathJax' );
 
-
 # Visual Editor Extension
 wfLoadExtension( 'VisualEditor' );
 
@@ -187,7 +186,7 @@ $wgGroupPermissions['user']['edit'] = true;
 $wgGroupPermissions['user']['writeapi'] = true;
 
 
-#Parasoid server
+#Parasoid server 
 if ( $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ) {
 	$wgGroupPermissions['*']['read'] = true;
 	$wgGroupPermissions['*']['edit'] = true;
@@ -198,9 +197,6 @@ wfLoadExtension( 'Parsoid', '/var/www/html/vendor/wikimedia/parsoid/extension.js
 $wgVirtualRestConfig['modules']['parsoid'] = array(
 	'url' => "http://localhost/rest.php"
 );
-
-
-
 
 # Maximum numbers of pixels a source image can have
 $wgMaxImageArea = 3.6e7;
